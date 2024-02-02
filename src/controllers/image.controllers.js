@@ -20,7 +20,7 @@ const create = catchError(async (req, res) => {
 
 const remove = catchError(async (req, res) => {
     const { id } = req.params;
-    await User.destroy({ where: { id } });
+    await Image.destroy({ where: { id } });
     return res.sendStatus(204);
 });
 

@@ -1,20 +1,24 @@
 const catchError = require('../utils/catchError');
 const ProductCart = require('../models/ProductCart');
 const Product = require('../models/Product');
+const Image = require('../models//Image');
 
 const getAll = catchError(async (req, res) => {
     const results = await ProductCart.findAll({
-        include: [Product],
-        where: { userId: req.user.id }//ERROR CON EL WHERE Y JWT
+        include: [{
+            model: Product,
+            include: [Image]
+        }],
+        where: { userId: req.user.id }
     });
     return res.json(results);
 });
 
 const create = catchError(async(req, res) => {
     const userId = req.user.id;
-    const { ProductId, quantity } = req.body;
+    const { productId, quantity } = req.body;
     const result = await ProductCart.create({
-        ProductId, 
+        productId, 
         quantity,
         userId
     });
